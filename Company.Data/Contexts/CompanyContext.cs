@@ -12,6 +12,7 @@ public class CompanyContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.Entity<EmployeeJobTitles>().HasKey(ejt => new { ejt.EmployeeId, ejt.JobTitleId});
     }
 
 }
