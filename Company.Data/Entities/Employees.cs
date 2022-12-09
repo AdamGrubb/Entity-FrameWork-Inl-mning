@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Company.Data.Entities
 {
-    public class Employee : IEntity
+    public class Employees : IEntity
     {
         public int Id { get; set; }
         [MaxLength(50), Required]
@@ -17,12 +17,12 @@ namespace Company.Data.Entities
         public string? LastName { get; set; }
         [Required]
         public bool Unionized { get; set; }
-        public virtual ICollection<JobTitle>? JobTitle { get; set;}
+        public virtual ICollection<JobTitles>? JobTitle { get; set;}
         [Required]
         public int Salary { get; set; }
 
         public int DepartmentId { get; set; } //Requiered?
-        public virtual Department? Department { get; set; }
+        public virtual Departments? Department { get; set; }
 
     }
 }

@@ -8,16 +8,11 @@ using System.Threading.Tasks;
 
 namespace Company.Data.Entities
 {
-    public class Company : IEntity
+    public class JobTitles: IEntity
     {
         public int Id { get; set; }
-
         [MaxLength(50), Required]
-        public string? Name { get; set; }
-        [MaxLength(15), Required]
-        public string? Organisationsnummer { get; set; }
-        public virtual ICollection<Department>? Department { get; set; }
-
-
+        public string? Title { get; set; }
+        public virtual ICollection<Employees>? Employee { get; set; }
     }
 }

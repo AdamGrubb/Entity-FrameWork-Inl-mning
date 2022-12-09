@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Company.Data.Entities
 {
-    public class EmployeeJobTitles : IReferenceEntity
+    public class EmployeesJobTitles : IReferenceEntity
     {
         public int JobTitleId { get; set; }
         public int EmployeeId { get; set; }
-        public virtual Employee? Employee { get; set; }
-        public virtual JobTitle? JobTitle {get; set;}
+        public virtual Employees? Employee { get; set; }
+        public virtual JobTitles? JobTitle {get; set;}
 
 
     }

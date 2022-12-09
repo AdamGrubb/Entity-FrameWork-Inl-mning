@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 
 namespace Company.Data.Entities
 {
-    public class JobTitle: IEntity
+    public class Departments: IEntity
     {
         public int Id { get; set; }
-        [MaxLength(50), Required]
-        public string? Title { get; set; }
-        public virtual ICollection<Employee>? Employee { get; set; }
+
+        [MaxLength(50),Required]
+        public string? DepartmentName { get; set; }
+        public int CompanyId { get; set; }
+        public virtual Companies? Company { get; set; }
+
     }
 }
