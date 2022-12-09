@@ -21,7 +21,7 @@ namespace Company.Data.Entities
         [Required]
         public int Salary { get; set; }
 
-        public int DepartmentId { get; set; } //Requiered?
+        public int DepartmentId { get; set; }
         public virtual Departments? Department { get; set; }
 
     }
