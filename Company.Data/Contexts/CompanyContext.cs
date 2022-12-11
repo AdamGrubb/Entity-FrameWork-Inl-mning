@@ -3,7 +3,7 @@ using Company.Data.Entities;
 
 namespace Company.Data.Contexts;
 
-public class CompanyContext : DbContext
+public class CompanyContext : DbContext, Microsoft.EntityFrameworkCore.Design.IDesignTimeDbContextFactory<CompanyContext>
 {
     public DbSet<Companies> Company => Set<Companies>();
     public DbSet<Departments> Department => Set<Departments>();
@@ -15,11 +15,12 @@ public class CompanyContext : DbContext
 	{
 
 	}
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
         builder.Entity<EmployeesJobTitles>().HasKey(ejt => new { ejt.EmployeeId, ejt.JobTitleId});
-        SeedData(builder);
+        //SeedData(builder);
     }
 
     private void SeedData(ModelBuilder builder)
@@ -144,4 +145,11 @@ public class CompanyContext : DbContext
         builder.Entity<EmployeesJobTitles>().HasData(EmployeeJobTitle);
     }
 
+    public CompanyContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<CompanyContext>();
+        optionsBuilder.UseSqlServer("Data Source=CompanyDb");
+
+        return new CompanyContext(optionsBuilder.Options);
+    }
 }
