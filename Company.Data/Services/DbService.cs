@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.Data.Services;
 
@@ -14,4 +15,11 @@ public class DbService : IDbService
     private readonly CompanyContext _db;
     private readonly IMapper _mapper;
     public DbService(CompanyContext db, IMapper mapper) => (_db, _mapper) = (db, mapper);
+
+    public async Task<List<TDto>> GetAsync<TEntity, TDto>() where TEntity: class, IEntity where TDto : class
+    {
+
+        var entities = await _db.Set<TEntity>().ToListAsync();
+        return _mapper.Map<List<TDto>>(entities);
+    }
 }
