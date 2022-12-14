@@ -10,6 +10,10 @@ public class CompanyContext : DbContext
     public DbSet<Employees> Employee => Set<Employees>();
     public DbSet<EmployeesJobTitles> EmployeeJobTitle => Set<EmployeesJobTitles>();
     public DbSet<JobTitles> JobTitle => Set<JobTitles>();
+
+    public CompanyContext (DbContextOptions<CompanyContext> options): base(options)
+    {
+    }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
