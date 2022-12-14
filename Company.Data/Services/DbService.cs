@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Company.Data.Services;
 
@@ -21,5 +22,14 @@ public class DbService : IDbService
 
         var entities = await _db.Set<TEntity>().ToListAsync();
         return _mapper.Map<List<TDto>>(entities);
+    }
+
+    private async Task<TEntity?> SingleAsync<TEntity>(Expression<Func<TEntity,bool>> expression) where TEntity : class, IEntity =>
+    await _db.Set<TEntity>().SingleOrDefaultAsync(expression);
+
+    public async Task<TDto> SingleAsync<TEntity, TDto>(Expression<Func<TEntity, bool>> expression) where TEntity : class, IEntity where TDto : class
+    {
+        var entity = await SingleAsync(expression);
+        return _mapper.Map<TDto>(entity);
     }
 }
