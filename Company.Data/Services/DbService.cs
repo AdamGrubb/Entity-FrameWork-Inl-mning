@@ -52,7 +52,7 @@ public class DbService : IDbService
         return entity;
     }
 
-    void Update<TEntity, TDto>(int id, TDto dto) where TEntity : class, IEntity where TDto : class
+    public void Update<TEntity, TDto>(int id, TDto dto) where TEntity : class, IEntity where TDto : class
     {
         var entity = _mapper.Map<TEntity>(dto);
         entity.Id=id;
