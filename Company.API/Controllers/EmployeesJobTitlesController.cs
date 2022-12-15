@@ -33,5 +33,22 @@ namespace Company.API.Controllers
             }
             return Results.BadRequest($"Failed to add {typeof(EmployeesJobTitles).Name} entity.");
         }
+
+        [HttpDelete]
+        public async Task<IResult> Delete([FromBody] EmployeesJobTitlesDTO dto)
+        {
+            try
+            {
+               if (!_db.DeleteRef<EmployeesJobTitles, EmployeesJobTitlesDTO>(dto)) return Results.NotFound();
+               if (await _db.SaveChangesAsync()) return Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest($"Failed to delete the {typeof(EmployeesJobTitles).Name} entity.{ex}.");
+            }
+            return Results.BadRequest($"Failed to delete the {typeof(EmployeesJobTitles).Name} entity.");
+        }
+
+        //public bool Delete<TReferenceEntity, TDto>(TDto dto) where TReferenceEntity : class, IReferenceEntity where TDto : class
     }
 }
