@@ -7,10 +7,10 @@ namespace Company.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class CompaniesController : ControllerBase
     {
         private readonly IDbService _db;
-        public CompanyController(IDbService db) => _db = db;
+        public CompaniesController(IDbService db) => _db = db;
 
         // GET: api/<CompanyController>
         [HttpGet]
