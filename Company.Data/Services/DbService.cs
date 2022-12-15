@@ -43,4 +43,12 @@ public class DbService : IDbService
     {
       return await _db.SaveChangesAsync() >= 0;
     }
+
+    public async Task<TEntity> AddAsync<TEntity, TDto>(TDto dto) where TEntity : class, IEntity where TDto : class
+
+    {
+        var entity = _mapper.Map<TEntity>(dto);
+        await _db.Set<TEntity>().AddAsync(entity);
+        return entity;
+    }
 }
