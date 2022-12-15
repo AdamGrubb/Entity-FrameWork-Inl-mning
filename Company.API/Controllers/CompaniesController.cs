@@ -46,7 +46,7 @@ namespace Company.API.Controllers
             }
             catch (Exception ex) 
             {
-                return Results.BadRequest($"Failed to add {typeof(Companies).Name} entity. {ex.Message}");
+                return Results.BadRequest($"Failed to add {typeof(Companies).Name} entity. {ex}");
 
             }
             return Results.BadRequest($"Failed to add {typeof(Companies).Name} entity."); //Varför???
@@ -54,8 +54,21 @@ namespace Company.API.Controllers
 
         // PUT api/<CompanyController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IResult> Put(int id, [FromBody] CompaniesDTO dto) //Här är jag
         {
+            try
+            {
+
+                if (!await _db.AnyAsync<Companies>(e => e.Id.Equals(id))) return Results.NotFound();
+                _db.Update<Companies, CompaniesDTO>(id, dto);
+                if (await _db.SaveChangesAsync()) return Results.NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest($"Failed to update the {typeof(Companies).Name} entity. {ex}.");
+            }
+            return Results.BadRequest($"Failed to update the {typeof(Companies).Name} entity.");
         }
 
         // DELETE api/<CompanyController>/5
