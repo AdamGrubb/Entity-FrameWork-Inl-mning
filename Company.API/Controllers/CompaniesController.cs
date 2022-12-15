@@ -14,23 +14,21 @@ namespace Company.API.Controllers
         private readonly IDbService _db;
         public CompaniesController(IDbService db) => _db = db;
 
-        // GET: api/<CompanyController>
+
         [HttpGet]
         public async Task<IResult> Get()
         {
 
-            return Results.Ok(await _db.GetAsync<Companies, CompaniesDTO>()); //Här får du ändra i routen så att du tar in nått annat än companys
+            return Results.Ok(await _db.GetAsync<Companies, CompaniesDTO>());
         }
 
-        // GET api/<CompanyController>/5
         [HttpGet("{id}")]
         public async Task<IResult> Get(int id)
         {
-            var entitet = await _db.SingleAsync<Companies, CompaniesDTO>(c => c.Id == id); //Här kan du göra en if.sats. Ifall den returnerar null så kan du göra en bad request.
-            return Results.Ok(entitet); //Här får du också ändra
+            var entitet = await _db.SingleAsync<Companies, CompaniesDTO>(c => c.Id == id);
+            return Results.Ok(entitet);
         }
 
-        // POST api/<CompanyController>
         [HttpPost]
         public async Task<IResult> Post([FromBody] CompaniesDTO dto)
         {
@@ -49,12 +47,11 @@ namespace Company.API.Controllers
                 return Results.BadRequest($"Failed to add {typeof(Companies).Name} entity. {ex}");
 
             }
-            return Results.BadRequest($"Failed to add {typeof(Companies).Name} entity."); //Varför???
+            return Results.BadRequest($"Failed to add {typeof(Companies).Name} entity.");
         }
 
-        // PUT api/<CompanyController>/5
         [HttpPut("{id}")]
-        public async Task<IResult> Put(int id, [FromBody] CompaniesDTO dto) //Här är jag
+        public async Task<IResult> Put(int id, [FromBody] CompaniesDTO dto)
         {
             try
             {
@@ -70,8 +67,6 @@ namespace Company.API.Controllers
             }
             return Results.BadRequest($"Failed to update the {typeof(Companies).Name} entity.");
         }
-
-        // DELETE api/<CompanyController>/5
         [HttpDelete("{id}")]
         public async Task<IResult> Delete(int id)
         {
