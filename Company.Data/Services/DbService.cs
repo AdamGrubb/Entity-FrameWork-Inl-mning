@@ -58,4 +58,20 @@ public class DbService : IDbService
         entity.Id=id;
         _db.Set<TEntity>().Update(entity);
     }
+
+    public async Task<bool> DeleteAsync<TEntity>(int id) where TEntity : class, IEntity   
+    {
+        try
+        {
+            var entity = await SingleAsync<TEntity>(e => e.Id.Equals(id));
+            if (entity is null) return false;
+            _db.Remove(entity);
+        }
+        catch
+        {
+            throw;
+        }
+        return true;
+
+    }
 }
