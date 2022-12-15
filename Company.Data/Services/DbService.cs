@@ -89,4 +89,11 @@ public class DbService : IDbService
         }
         return true;
     }
+    public async Task<TReferenceEntity> AddRefAsync<TReferenceEntity, TDto>(TDto dto) where TReferenceEntity : class, IReferenceEntity where TDto : class
+
+    {
+        var refentity = _mapper.Map<TReferenceEntity>(dto);
+        await _db.Set<TReferenceEntity>().AddAsync(refentity);
+        return refentity; //Ta bort denna eller returnera bool?
+    }
 }
