@@ -13,4 +13,6 @@ public interface IDbService
     Task<TDto> SingleAsync<TEntity, TDto>(Expression<Func<TEntity, bool>> expression) where TEntity : class, IEntity where TDto : class;
 
     Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class, IEntity;
+
+    Task<bool> SaveChangesAsync();
 }

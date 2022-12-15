@@ -38,8 +38,9 @@ public class DbService : IDbService
     {
         return await _db.Set<TEntity>().AnyAsync(expression);
     }
-    
-       
 
-        
+    public async Task<bool> SaveChangesAsync()
+    {
+      return await _db.SaveChangesAsync() >= 0;
+    }
 }
