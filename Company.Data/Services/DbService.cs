@@ -74,4 +74,19 @@ public class DbService : IDbService
         return true;
 
     }
+
+    public bool Delete<TReferenceEntity, TDto>(TDto dto) where TReferenceEntity : class, IReferenceEntity where TDto : class //Implementera denna sen vid kopplingstabellen.
+    {
+        try
+        {
+            var entity = _mapper.Map<TReferenceEntity>(dto);
+            if (entity is null) return false;
+            _db.Remove(entity);
+        }
+        catch
+        {
+            throw;
+        }
+        return true;
+    }
 }
