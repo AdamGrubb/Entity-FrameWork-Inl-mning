@@ -22,7 +22,7 @@ public interface IDbService
 
     Task<bool> DeleteAsync<TEntity>(int id) where TEntity : class, IEntity;
 
-    bool Delete<TReferenceEntity, TDto>(TDto dto) where TReferenceEntity : class, IReferenceEntity where TDto : class;
+    bool DeleteRef<TReferenceEntity, TDto>(TDto dto) where TReferenceEntity : class, IReferenceEntity where TDto : class;
 
     Task<TReferenceEntity> AddRefAsync<TReferenceEntity, TDto>(TDto dto) where TReferenceEntity : class, IReferenceEntity where TDto : class;
 
