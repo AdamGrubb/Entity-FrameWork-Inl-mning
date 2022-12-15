@@ -1,5 +1,7 @@
 ﻿using Company.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,8 +32,24 @@ namespace Company.API.Controllers
 
         // POST api/<CompanyController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IResult> Post([FromBody] CompaniesDTO dto)
         {
+            try
+            {
+                var entity = await _db.AddAsync<Companies, CompaniesDTO>(dto);
+                if (await _db.SaveChangesAsync()) 
+                {
+                    var node = typeof(Companies).Name.ToLower();
+                    return Results.Created($"/{node}s/{entity.Id}", entity);
+                }
+                
+            }
+            catch (Exception ex) 
+            {
+                return Results.BadRequest($"Failed to add {typeof(Companies).Name} entity. {ex.Message}");
+
+            }
+            return Results.BadRequest($"Failed to add {typeof(Companies).Name} entity."); //Varför???
         }
 
         // PUT api/<CompanyController>/5
