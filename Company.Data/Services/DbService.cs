@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace Company.Data.Services;
 
@@ -32,4 +33,13 @@ public class DbService : IDbService
         var entity = await SingleAsync(expression);
         return _mapper.Map<TDto>(entity);
     }
+
+    public async Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class, IEntity
+    {
+        return await _db.Set<TEntity>().AnyAsync(expression);
+    }
+    
+       
+
+        
 }
