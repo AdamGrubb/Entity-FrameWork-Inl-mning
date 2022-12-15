@@ -51,4 +51,11 @@ public class DbService : IDbService
         await _db.Set<TEntity>().AddAsync(entity);
         return entity;
     }
+
+    void Update<TEntity, TDto>(int id, TDto dto) where TEntity : class, IEntity where TDto : class
+    {
+        var entity = _mapper.Map<TEntity>(dto);
+        entity.Id=id;
+        _db.Set<TEntity>().Update(entity);
+    }
 }
