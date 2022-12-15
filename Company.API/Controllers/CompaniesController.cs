@@ -73,8 +73,18 @@ namespace Company.API.Controllers
 
         // DELETE api/<CompanyController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IResult> Delete(int id)
         {
+            try
+            {
+                if (!await _db.DeleteAsync<Companies>(id)) return Results.NotFound();
+                if (await _db.SaveChangesAsync()) return Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest($"Failed to delete the {typeof(Companies).Name} entity.{ex}.");
+            }
+            return Results.BadRequest($"Failed to delete the {typeof(Companies).Name} entity.");
         }
     }
 }
