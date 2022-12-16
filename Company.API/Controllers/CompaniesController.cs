@@ -17,7 +17,6 @@ namespace Company.API.Controllers
 
 
         [HttpGet]
-        //public async Task<IResult> Get() =>Results.Ok(await _db.GetAsync<Companies, CompaniesDTO>()); Utan extension-method.
         public async Task<IResult> Get() =>await _db.HttpGetAsync<Companies, CompaniesDTO>();
 
         [HttpGet("{id}")]
