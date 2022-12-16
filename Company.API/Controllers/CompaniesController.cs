@@ -1,4 +1,5 @@
-﻿using Company.Data.Interfaces;
+﻿using Company.API.Extensions;
+using Company.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
@@ -16,70 +17,20 @@ namespace Company.API.Controllers
 
 
         [HttpGet]
-        public async Task<IResult> Get()
-        {
-            return Results.Ok(await _db.GetAsync<Companies, CompaniesDTO>());
-        }
+        //public async Task<IResult> Get() =>Results.Ok(await _db.GetAsync<Companies, CompaniesDTO>()); Utan extension-method.
+        public async Task<IResult> Get() =>await _db.HttpGetAsync<Companies, CompaniesDTO>();
 
         [HttpGet("{id}")]
-        public async Task<IResult> Get(int id)
-        {
-            var entitet = await _db.SingleAsync<Companies, CompaniesDTO>(c => c.Id == id);
-            if (entitet is null) return Results.NotFound();
-            return Results.Ok(entitet);
-        }
+        public async Task<IResult> Get(int id) => await _db.HttpSingleAsync<Companies, CompaniesDTO>(id);
 
         [HttpPost]
-        public async Task<IResult> Post([FromBody] CompaniesDTO dto)
-        {
-            try
-            {
-                var entity = await _db.AddAsync<Companies, CompaniesDTO>(dto);
-                if (await _db.SaveChangesAsync()) 
-                {
-                    var node = typeof(Companies).Name.ToLower();
-                    return Results.Created($"/{node}s/{entity.Id}", entity);
-                }
-                
-            }
-            catch (Exception ex) 
-            {
-                return Results.BadRequest($"Failed to add {typeof(Companies).Name} entity. {ex}");
-
-            }
-            return Results.BadRequest($"Failed to add {typeof(Companies).Name} entity.");
-        }
+        public async Task<IResult> Post([FromBody] CompaniesDTO dto) => await _db.HttpAddAsync<Companies, CompaniesDTO>(dto);
 
         [HttpPut("{id}")]
-        public async Task<IResult> Put(int id, [FromBody] CompaniesDTO dto)
-        {
-            try
-            {
+        public async Task<IResult> Put(int id, [FromBody] CompaniesDTO dto) => await _db.HttpUpdateAsync<Companies, CompaniesDTO>(dto, id);
 
-                if (!await _db.AnyAsync<Companies>(e => e.Id.Equals(id))) return Results.NotFound();
-                _db.Update<Companies, CompaniesDTO>(id, dto);
-                if (await _db.SaveChangesAsync()) return Results.NoContent();
-
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest($"Failed to update the {typeof(Companies).Name} entity. {ex}.");
-            }
-            return Results.BadRequest($"Failed to update the {typeof(Companies).Name} entity.");
-        }
         [HttpDelete("{id}")]
-        public async Task<IResult> Delete(int id)
-        {
-            try
-            {
-                if (!await _db.DeleteAsync<Companies>(id)) return Results.NotFound();
-                if (await _db.SaveChangesAsync()) return Results.NoContent();
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest($"Failed to delete the {typeof(Companies).Name} entity.{ex}.");
-            }
-            return Results.BadRequest($"Failed to delete the {typeof(Companies).Name} entity.");
-        }
+        public async Task<IResult> Delete(int id)=> await _db.HttpDeleteAsync<Companies>(id);
     }
 }
+ 
