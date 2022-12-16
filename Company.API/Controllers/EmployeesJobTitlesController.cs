@@ -1,4 +1,5 @@
-﻿using Company.Data.Interfaces;
+﻿using Company.API.Extensions;
+using Company.Data.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,42 +14,9 @@ namespace Company.API.Controllers
         public EmployeesJobTitlesController(IDbService db) => _db = db;
 
         [HttpPost]
-        public async Task<IResult> Post([FromBody] EmployeesJobTitlesDTO dto)
-        {
-            try
-            {
-                //var entity = await _db.AddAsync<Companies, CompaniesDTO>(dto);
-                var referenceEntity = await _db.AddRefAsync<EmployeesJobTitles, EmployeesJobTitlesDTO>(dto);
-                if (await _db.SaveChangesAsync())
-                {
-                    var node = typeof(EmployeesJobTitles).Name.ToLower();
-                    return Results.Created($"/{node}s/{referenceEntity.JobTitleId}, {referenceEntity.EmployeeId}", referenceEntity); //Fråga jonas om den ska se ut såhär??
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest($"Failed to add {typeof(EmployeesJobTitles).Name} entity. {ex}");
-
-            }
-            return Results.BadRequest($"Failed to add {typeof(EmployeesJobTitles).Name} entity.");
-        }
+        public async Task<IResult> Post([FromBody] EmployeesJobTitlesDTO dto) => await _db.HttpAddRefAsync<EmployeesJobTitles, EmployeesJobTitlesDTO>(dto);
 
         [HttpDelete]
-        public async Task<IResult> Delete([FromBody] EmployeesJobTitlesDTO dto)
-        {
-            try
-            {
-               if (!_db.DeleteRef<EmployeesJobTitles, EmployeesJobTitlesDTO>(dto)) return Results.NotFound();
-               if (await _db.SaveChangesAsync()) return Results.NoContent();
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest($"Failed to delete the {typeof(EmployeesJobTitles).Name} entity.{ex}.");
-            }
-            return Results.BadRequest($"Failed to delete the {typeof(EmployeesJobTitles).Name} entity.");
-        }
-
-        //public bool Delete<TReferenceEntity, TDto>(TDto dto) where TReferenceEntity : class, IReferenceEntity where TDto : class
+        public async Task<IResult> Delete([FromBody] EmployeesJobTitlesDTO dto) => await _db.HttpDeleteRefAsync<EmployeesJobTitles, EmployeesJobTitlesDTO>(dto);
     }
 }
