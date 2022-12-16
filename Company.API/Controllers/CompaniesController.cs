@@ -18,7 +18,6 @@ namespace Company.API.Controllers
         [HttpGet]
         public async Task<IResult> Get()
         {
-
             return Results.Ok(await _db.GetAsync<Companies, CompaniesDTO>());
         }
 
@@ -26,6 +25,7 @@ namespace Company.API.Controllers
         public async Task<IResult> Get(int id)
         {
             var entitet = await _db.SingleAsync<Companies, CompaniesDTO>(c => c.Id == id);
+            if (entitet is null) return Results.NotFound();
             return Results.Ok(entitet);
         }
 
