@@ -11,4 +11,5 @@ public record DepartmentsDTO
 {
     public int Id { get; set; }
     public string? DepartmentName { get; set; }
+    public int CompanyId { get; set; }
 }

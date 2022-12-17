@@ -14,4 +14,7 @@ public record EmployeesDTO
     public string? LastName { get; set; }
     public bool Unionized { get; set; }
     public int Salary { get; set; }
+    public int DepartmentId { get; set; }
+
+
 }
