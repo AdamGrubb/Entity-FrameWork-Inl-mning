@@ -81,7 +81,7 @@ namespace Company.API.Extensions
                 if (await db.SaveChangesAsync())
                 {
                     var node = typeof(TReferenceEntity).Name.ToLower();
-                    return Results.Created($"/{node}/{dto}", referenceEntity); //Varför retunerar man entiteten och inte dto? Behöver UI verkligen allt?
+                    return Results.Created($"/{node}/{dto}", referenceEntity);
                 }
 
             }
